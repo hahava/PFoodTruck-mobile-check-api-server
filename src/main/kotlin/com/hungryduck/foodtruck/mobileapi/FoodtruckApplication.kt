@@ -1,4 +1,4 @@
-package com.hungryduck.foodtruck
+package com.hungryduck.foodtruck.mobileapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
