@@ -1,6 +1,7 @@
 package com.hungryduck.foodtruck.mobileapi.repository
 
 import com.hungryduck.foodtruck.mobileapi.entity.NotiBoard
+import com.hungryduck.foodtruck.mobileapi.model.NotiRequest
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
@@ -9,7 +10,7 @@ import reactor.core.publisher.Mono
 class NotiAppTargetRepository(
     private val databaseClient: DatabaseClient
 ) {
-    fun selectNotiAppTarget(os: String, osVer: String, appVer: String): Mono<NotiBoard> = databaseClient.sql(
+    fun selectNotiAppTarget(notiRequest: NotiRequest): Mono<NotiBoard> = databaseClient.sql(
         """
             SELECT noti_board.id,
                    noti_board.category,
@@ -28,9 +29,9 @@ class NotiAppTargetRepository(
                    AND use_yn = true
         """.trimIndent()
     )
-        .bind("os", os)
-        .bind("osVer", osVer)
-        .bind("appVer", appVer)
+        .bind("os", notiRequest.os)
+        .bind("osVer", notiRequest.osVer)
+        .bind("appVer", notiRequest.appVer)
         .map { row ->
             NotiBoard(
                 id = row.get("id") as Long,
